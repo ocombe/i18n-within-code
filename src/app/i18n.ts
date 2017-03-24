@@ -4,7 +4,7 @@ export interface I18nToken {
     [key: string]: I18nDef;
 }
 
-export class I18nDefs { };
+export class I18_DEFS {}
 
 export type I18nDef = string | {
     id?: string;

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MyI18nDefs, MyOtherI18nDefs } from "app/i18n.defs";
 import { I18nDef } from "app/i18n";
-import { I18nDefs, I18nService } from "app/i18n";
+import { I18_DEFS, I18nService } from "app/i18n";
 
 @Component({
   selector: 'app-root',
@@ -13,10 +13,8 @@ import { I18nDefs, I18nService } from "app/i18n";
   `,
 })
 export class AppComponent {
-  // using the class
   title = this.i18n.title;
-  // using the token
-  test = this.i18nAny.test;
+  test = this.i18n.test;
   // message with parameters
   msgWithParams = this.__(this.i18n.msgWithParams, {someParam: 'some param', otherParam: 'some other param'});
   // also works with numeric params
@@ -30,8 +28,7 @@ export class AppComponent {
    * and you have to use @Inject
    */
   constructor(
-    public i18n: MyI18nDefs,
-    @Inject(I18nDefs) public i18nAny: MyI18nDefs & MyOtherI18nDefs,
+    @Inject(I18_DEFS) public i18n: MyI18nDefs & MyOtherI18nDefs,
     public __: I18nService
   ) { }
 }
