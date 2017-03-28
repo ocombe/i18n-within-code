@@ -1,21 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpModule} from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { MyI18nDefs, MyOtherI18nDefs } from "app/i18n.defs";
-import { I18_DEFS, I18nService } from "app/i18n";
-
-export function mixingI18nDefs(...defs: any[]) {
-  const mixedDefs = {};
-  defs.forEach((def: any) => {
-    Object.getOwnPropertyNames(def).forEach((name: string) => {
-      mixedDefs[name] = def[name];
-    });
-  });
-  return mixedDefs;
-}
+import {AppComponent} from './app.component';
+import {I18nDef, I18nService} from "app/i18n";
+import {I18N_DEFS, MyI18nDefs} from "./i18n.defs";
+import {ExternalLibModule} from "./external-lib/external-lib.module";
 
 @NgModule({
   declarations: [
@@ -23,30 +13,21 @@ export function mixingI18nDefs(...defs: any[]) {
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule
+    HttpModule,
+    // ExternalLibModule
   ],
   providers: [
-    /* start of temp stuff */
     // this would be auto provided by Angular, we add it here to make it working for now
     MyI18nDefs,
-    MyOtherI18nDefs,
-    {
-      provide: I18nService,
-      useValue: I18nService
-    }, {
-      provide: I18_DEFS,
-      useFactory: mixingI18nDefs,
-      deps: [MyI18nDefs, MyOtherI18nDefs]
-    }],
-    /* end of temp stuff */
+    {provide: I18nService, useValue: I18nService}
+  ],
 
-   // /!\ this is commented because typescript will throw an error otherwise since this property doesn't exist yet
-   // we concatenate the defs in an unique token, the developer can use intersection types to have auto completion
-   /*translations: [
-     './i18n.defs#MyI18nDefs',
-     './i18n.defs#MyOtherI18nDefs'
-   ],*/
+  translations: [
+     MyI18nDefs,
+     I18N_DEFS
+   ],
+
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
